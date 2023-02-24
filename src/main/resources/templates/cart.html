@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header-css">
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container ">
+    <div th:if="${!products.isEmpty()}" class="col">
+        <h2 th:text="#{cart.title}"></h2>
+        <div class="row ml-2 p-2 d-flex justify-content-between align-items-center rounded bg-light" th:each="product : ${products.entrySet()}">
+            <img th:src="${product.getKey().getImageUrl()}" width="400px" height="200px"></img>
+            <div>
+                <h3 th:text="${product.getKey().getName()}"></h3>
+                <h4 th:text="${product.getValue()}"></h4>
+                <h4 th:text="${product.getKey().getPrice()}"></h4>
+                <a th:href="@{'/cart/remove/{id}'(id=${product.getKey().getId()})}" class="col-md-1">
+                    <button type="button" class="btn btn-primary" th:text="#{cart.remove}"></button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${products.isEmpty()}" class="col-3">
+        <h2 th:text="#{cart.empty}"></h2>
+    </div>
+
+</div>
+<div class="container rounded bg-light ">
+    <br>
+    <a th:href="@{'/cart/clear/'}" class="col-md-1">
+        <button type="button" class="btn btn-info" th:text="#{cart.clear}"></button>
+    </a>
+
+    <br>
+    <div class="row">
+        <h3 th:text="#{cart.total} + ' ' + ${totalPrice}"></h3>">
+        <a th:href="@{'/cart/checkout'}" class="col-md-1">
+            <button type="button" class="btn btn-success" th:text="#{cart.checkout}"></button>
+        </a>
+    </div>
+</div>
+
+</body>
+<script>
+    document.querySelector('button.btn.btn-success').addEventListener('click', function() {
+        alert('Thank you for your order, ' +
+            'Your order is in the way');
+    });
+</script>
+
+
+</html>
